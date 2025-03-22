@@ -1,0 +1,31 @@
+name: Build IPA
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Unzip iOS Source
+        run: |
+          tar -xzf ios_source.tar.gz -C .
+
+      - name: Install Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          sudo xcodebuild -license accept
+
+      - name: Build and Archive
+        run: |
+          cd ios_source
+          xcodebuild -scheme "TTC" -destination 'generic/platform=iOS' -archivePath TTC.xcarchive archive
+          xcodebuild -exportArchive -archivePath TTC.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: TTC.ipa
+          path: ios_source/TTC.ipa
