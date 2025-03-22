@@ -1,13 +1,13 @@
 name: Build IPA
 
-on: [push]  # Fix: Use brackets and proper indentation
+on: [push]
 
 jobs:
   build:
-    runs-on: macos-latest  # Fix: Use "macos-latest" (not "micro-latest")
+    runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Fix: Use checkout@v4
+        uses: actions/checkout@v4
 
       - name: Unzip iOS Source
         run: |
@@ -25,7 +25,7 @@ jobs:
           xcodebuild -exportArchive -archivePath TTC.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
 
       - name: Upload IPA
-        uses: actions/upload-artifact@v3  # Fix: Use v3 (not v2)
+        uses: actions/upload-artifact@v3
         with:
           name: TTC.ipa
           path: ios_source/TTC.ipa
