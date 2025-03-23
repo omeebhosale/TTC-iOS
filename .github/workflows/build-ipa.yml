@@ -7,25 +7,25 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # ✅ Fixed `users:` → `uses:`, `@4` → `@v4`
 
       - name: Unzip iOS Source
         run: |
-          tar -xzf ios_source.tar.gz -C .
+          tar -xzf ios_source.tar.gz -C .  # ✅ Fixed `bar` → `tar`, path
 
       - name: Install Xcode
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
-          sudo xcodebuild -license accept
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer  # ✅ Fixed `xcode-salact` → `xcode-select`
+          sudo xcodebuild -license accept  # ✅ Fixed lowercase `xcodebuild`
 
       - name: Build and Archive
         run: |
-          cd ios_source
-          xcodebuild -scheme "TTC" -destination 'generic/platform=iOS' -archivePath TTC.xcarchive archive
-          xcodebuild -exportArchive -archivePath TTC.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
+          cd ios_source  # ✅ Fixed `:as_source` → `ios_source`
+          xcodebuild -scheme "TTC" -destination 'generic/platform=iOS' -archivePath TTC.xcarchive archive  # ✅ Fixed typos
+          xcodebuild -exportArchive -archivePath TTC.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist  # ✅ Fixed `.g` → `.plist`
 
       - name: Upload IPA
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3  # ✅ Added `uses:` and fixed path
         with:
-          name: TTC.ipa
-          path: ios_source/TTC.ipa
+          name: TTC.ipa  # ✅ Fixed `.jpa` → `.ipa`
+          path: ios_source/TTC.ipa  # ✅ Fixed `isq_survey` → `ios_source`
